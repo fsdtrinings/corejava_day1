@@ -53,6 +53,34 @@ public class Employee {
 		this.project = project;
 	}
 	
+	public void annualIncrement(int per)
+	{
+		this.employeeSalary += ((this.employeeSalary*per)/100);
+	}
 	
+	public void loginLogoff()
+	{
+		System.out.println("Login-logoff");
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

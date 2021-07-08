@@ -50,8 +50,23 @@ public class EmployeeOperation {
 		} else
 			return false;
 	}
-	
-	
+						
+	public Employee[] getEMployeeBasedOnProject(String projectName)
+	{
+		
+		Employee temp[] = new Employee[10]; // 10
+		int count = 0;
+		
+		for (int i = 0; i < index; i++) {
+
+			if(arr[i].getProject().getProjectName().equalsIgnoreCase(projectName))
+			{
+				temp[count++] = arr[i];
+			}
+			
+		}
+		return temp;
+	}
 	
 	
 	

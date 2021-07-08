@@ -12,11 +12,15 @@ public class UserClass {
 		UserClass app = new UserClass();
 		while(true)
 		{
+			System.out.println(" \n\n================================\n");
 			System.out.println("1. Add Employee.");
 			System.out.println("2. Read Employee.");
 			System.out.println("3. Display All Employee.");
 			System.out.println("4. Edit Employee Salary");
 			System.out.println("5. Allocate Project");
+			System.out.println("6. Get Employees Based on Project Name ");
+			System.out.println("7. Login/Logoff");
+			
 			
 			System.out.println(" Enter User Option:- ");
 			int choice = new Scanner(System.in).nextInt();
@@ -41,6 +45,12 @@ public class UserClass {
 				case 5:
 					app.allocateProject();
 					break;
+				case 6:
+					app.getEmployyeByProject();
+					break;
+				case 7:
+					app.doLoginLogoff();
+					break;
 				case 0: 
 					System.exit(0);
 			}//end switch
@@ -51,10 +61,52 @@ public class UserClass {
 	}
 	
 	
+	public void doLoginLogoff()
+	{
+		System.out.println("\n\n");
+		System.out.println("Enter Employee ID forLogin Logout");
+		int searchID = new Scanner(System.in).nextInt();
+		
+		Employee e = empOperations.getEmployeeByID(searchID);
+		
+		
+		if(e!=null)
+		{
+			e.loginLogoff();
+			
+		}
+		else
+		{
+			System.out.println(" Wrong Employee ID "+searchID);
+		}
+		
+	}
+	
+	
+	
+	
+	public void getEmployyeByProject()
+	{
+		
+		System.out.println("Enter Project Name For Employee Details ");
+		String searchProjectName = new Scanner(System.in).nextLine();
+		
+		Employee projectEmpArr[] = empOperations.getEMployeeBasedOnProject(searchProjectName);
+		
+		for (Employee employee : projectEmpArr) {
+			if(employee!=null)
+				displayEmployeeDetails(employee);
+		}
+		
+		
+	}
+	
+	
 	public void allocateProject()
 	{
 		System.out.println("Enter Project Name ");
 		String projectName = new Scanner(System.in).nextLine();
+		
 		System.out.println("Enter Techonlogy Name ");
 		String techName = new Scanner(System.in).nextLine();
 		
@@ -106,8 +158,25 @@ public class UserClass {
 		System.out.println("Enter Employee Salary ");
 		int empSalary = new Scanner(System.in).nextInt();
 		
-		Employee e = new Employee(empName, empID, empSalary, null);
+		System.out.println("Enter Employee Type (acc/dev/sales)");
+		String empType = new Scanner(System.in).nextLine();
 		
+		Employee e = null;
+		if(empType.equalsIgnoreCase("acc"))
+		{
+			e = new Accountant(empName, empID, empSalary, null);
+		}
+		else if(empType.equalsIgnoreCase("dev"))
+		{
+			e = new Developer(empName, empID, empSalary, null);
+		}
+		else if(empType.equalsIgnoreCase("sales"))
+		{
+			e = new SalesEmployee(empName, empID, empSalary, null);
+		}
+		
+		
+			
 		boolean isInserted = empOperations.insertEmployee(e);
 		
 		if(isInserted)
@@ -147,6 +216,28 @@ public class UserClass {
 		{
 			System.out.println("Project Info "+e.getProject().getProjectName()+" - "+e.getProject().getTechName());
 		}
+		
+		if(e instanceof Accountant)
+		{
+			Accountant a = (Accountant)e;  // runtime exception :- classcastexception
+			a.workOnTaxFile();
+		}
+		if(e instanceof SalesEmployee)
+		{
+			SalesEmployee sales = (SalesEmployee)e;
+			sales.doMarketing("ABC-Product");
+		}
+		
+		if(e instanceof Developer)
+		{
+			Developer dev = (Developer)e;
+			dev.projectDocumentation();
+		}
+		
+		
+		
+		
+		
 		
 		System.out.println("-------------------------------------");
 		
